@@ -115,7 +115,94 @@ HistoriaCare sigue una arquitectura MVC (Modelo-Vista-Controlador) con los sigui
 4. **Módulo de directorios:**
    - Búsqueda de médicos filtrada por especialidad y ubicación.
 5. **Módulo de recetas médicas:**
-   - Creación de recetas PDF y envío por correo.
+   - Creación de recetas.
+
+## Flujo de la Aplicación
+
+### 1. Registro de Usuarios
+- Los nuevos usuarios pueden registrarse en el sistema accediendo a la sección de registro.
+- Dependiendo del rol seleccionado (Paciente o Médico):
+  - **Pacientes**:
+    - Registro de datos personales, dirección y detalles médicos.
+    - Asignación de información como grupo sanguíneo, RH, ocupación, etc.
+  - **Médicos**:
+    - Registro de datos personales, cedula médica y selección de especialidades médicas.
+
+### 2. Inicio de Sesión
+- Los usuarios inician sesión en el sistema proporcionando su correo electrónico y contraseña.
+- La autenticación se realiza mediante JWT para garantizar la seguridad.
+- Tras el inicio de sesión:
+  - **Pacientes** son redirigidos a su panel de control, donde pueden acceder a citas, diagnósticos y tratamientos.
+  - **Médicos** son redirigidos a su panel, donde gestionan citas, historias de pacientes, diagnosticos y tratamientos.
+
+### 3. Panel Principal
+- Dependiendo del rol:
+  - **Pacientes**:
+    - Gestionan sus citas.
+    - Pueden buscar médicos por especialidad y ubicación.
+    - Acceso a diagnósticos, tratamientos pasados y su historial clínico en general.
+  - **Médicos**:
+    - Gestionan sus citas.
+    - Acceso al historial clínico de sus pacientes.
+    - Gestión de diagnósticos y tratamientos.
+
+### 4. Gestión de Citas
+- **Pacientes**:
+  - Solicitan nuevas citas seleccionando un médico disponible.
+  - Pueden modificar o cancelar citas existentes.
+- **Médicos**:
+  - Gestionan las citas asignadas, confirmando o reprogramando según sea necesario.
+  - Acceso al historial de citas para cada paciente.
+
+### 5. Gestión de Historias Clínicas
+- **Médicos**:
+  - Acceden al historial clínico de los pacientes, incluyendo antecedentes familiares y patológicos.
+  - Consultan estadísticas de enfermedades diagnosticadas y medicamentos prescritos.
+- **Pacientes**:
+  - Visualizan sus propios historiales clínicos para hacer seguimiento de diagnósticos y tratamientos.
+
+### 6. Diagnósticos y Tratamientos
+- **Médicos**:
+  - Registran nuevos diagnósticos a partir de las consultas realizadas.
+  - Prescriben tratamientos y generan recetas médicas.
+- **Pacientes**:
+  - Acceden a un listado de diagnósticos previos y tratamientos activos o pasados.
+
+### 7. Directorio Médico
+- **Pacientes**:
+  - Buscan médicos filtrando por especialidad y ubicación.
+  - Acceden a información detallada de cada médico.
+- **Médicos**:
+  - Visualizan el listado de pacientes asignados a su cuidado.
+
+### 8. Seguridad y Autorización
+- El sistema asegura que cada usuario solo acceda a los datos permitidos según su rol:
+  - **Médicos** pueden acceder a los historiales de sus propios pacientes.
+  - **Pacientes** solo acceden a su información personal y médica.
+- JWT asegura sesiones seguras y protegidas contra accesos no autorizados.
+
+### 9. Registro y Completar Perfil
+- Los usuarios recién registrados completan su perfil proporcionando información adicional:
+  - **Dirección** y datos personales.
+  - Detalles médicos (pacientes) o especialidades (médicos).
+- El sistema asegura que el perfil esté completo antes de habilitar otras funcionalidades.
+
+### 10. Notificaciones
+- Notificaciones visuales se muestran en el panel de control:
+  - Confirmación de citas.
+  - Registro exitoso de diagnósticos o tratamientos.
+  - Mensajes de error o advertencias durante el uso.
+
+### Resumen del Flujo:
+1. **Registro**: Usuarios se registran según su rol (Paciente/Médico).
+2. **Inicio de Sesión**: Autenticación segura con JWT.
+3. **Completar Perfil**: Agregan detalles personales o profesionales.
+4. **Interacción**:
+   - **Pacientes**: Buscan médicos, gestionan citas, y visualizan historiales.
+   - **Médicos**: Gestionan pacientes, crean diagnósticos y prescriben tratamientos.
+5. **Actualización y Notificaciones**: Los usuarios reciben retroalimentación en cada acción realizada.
+
+
 
 ## Requerimientos del sistema
 
