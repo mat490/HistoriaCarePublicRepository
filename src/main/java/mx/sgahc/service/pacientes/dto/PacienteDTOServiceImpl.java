@@ -185,7 +185,7 @@ public class PacienteDTOServiceImpl implements PacienteDTOService {
     @Override
     public Page<PacienteDTOResponse> getPacientesByMedicoId(Integer id, Pageable pageable) {
         List<PacienteDTOResponse> pacienteDTOResponses =
-                pacienteService.getPacientes().stream().map(this::toDtoResponse).toList();
+                medicoRepository.buscarPacientesPorMedicoId(id).stream().map(this::toDtoResponse).toList();
         return new PageImpl<>(pacienteDTOResponses, pageable, pacienteDTOResponses.size());
     }
 
