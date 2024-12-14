@@ -44,34 +44,28 @@ import java.util.List;
 @RequestMapping("/diagnosticos")
 public class DiagnosticoController {
 
-    private final DiagnosticoService diagnosticoService;
     private final DiagnosticoDTOService diagnosticoDTOService;
     private final CitaService citaService;
     private final CitaDTOService citaDTOService;
     private final EnfermedadService enfermedadService;
     private final EnfermedadDTOService enfermedadDTOService;
-    private final UsuarioService usuarioService;
     private final UsuarioDTOService usuarioDTOService;
-    private final MedicoService medicoService;
     private final MedicoDTOService medicoDTOService;
-    private final PacienteService pacienteService;
     private final PacienteDTOService pacienteDTOService;
 
     @Autowired
-    public DiagnosticoController(DiagnosticoService diagnosticoService, DiagnosticoDTOService diagnosticoDTOService,
+    public DiagnosticoController(DiagnosticoDTOService diagnosticoDTOService,
                                  CitaService citaService, CitaDTOService citaDTOService,
-                                 EnfermedadService enfermedadService, EnfermedadDTOService enfermedadDTOService, UsuarioService usuarioService, UsuarioDTOService usuarioDTOService, MedicoService medicoService, MedicoDTOService medicoDTOService, PacienteService pacienteService, PacienteDTOService pacienteDTOService) {
-        this.diagnosticoService = diagnosticoService;
+                                 EnfermedadService enfermedadService, EnfermedadDTOService enfermedadDTOService,
+                                 UsuarioDTOService usuarioDTOService, MedicoDTOService medicoDTOService,
+                                 PacienteDTOService pacienteDTOService) {
         this.diagnosticoDTOService = diagnosticoDTOService;
         this.citaService = citaService;
         this.citaDTOService = citaDTOService;
         this.enfermedadService = enfermedadService;
         this.enfermedadDTOService = enfermedadDTOService;
-        this.usuarioService = usuarioService;
         this.usuarioDTOService = usuarioDTOService;
-        this.medicoService = medicoService;
         this.medicoDTOService = medicoDTOService;
-        this.pacienteService = pacienteService;
         this.pacienteDTOService = pacienteDTOService;
     }
 
