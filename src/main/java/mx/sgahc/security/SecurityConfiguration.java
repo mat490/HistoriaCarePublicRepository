@@ -47,7 +47,7 @@ public class SecurityConfiguration {
         http
                 .authorizeHttpRequests(authz -> authz
                         .requestMatchers("/bootstrap/**", "/iconos/**", "/imagen/**", "/temas/**","inicio/inicio-sesion" , "/index",
-                                "/registro/registro", "/registro/save-user","/registro/paciente-save", "/**").permitAll()
+                                "/registro/registro", "/registro/save-user","/registro/paciente-save").permitAll()
                         .requestMatchers("/inicio").hasAnyAuthority("Medico", "Paciente")
                         .requestMatchers("/registro/registro-datos").hasAnyAuthority("Medico", "Paciente")
                         .requestMatchers("/registro/registro-direccion").hasAnyAuthority("Medico", "Paciente")
