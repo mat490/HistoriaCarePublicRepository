@@ -49,28 +49,21 @@ public class CitasController {
 
     private final MedicoService medicoService;
     private final MedicoDTOService medicoDTOService;
-    private final UsuarioService usuarioService;
     private final UsuarioDTOService usuarioDTOService;
     private final PacienteService pacienteService;
     private final PacienteDTOService pacienteDTOService;
-    private final CitaService citaService;
     private final CitaDTOService citaDTOService;
-    private final DatosService datosService;
-    private final DatosDTOService datosDTOService;
 
     @Autowired
-    public CitasController(MedicoService medicoService, MedicoDTOService medicoDTOService, UsuarioService usuarioService, UsuarioDTOService usuarioDTOService, PacienteService pacienteService, PacienteDTOService pacienteDTOService,
-                           CitaService citaService, CitaDTOService citaDTOService, DatosService datosService, DatosDTOService datosDTOService) {
+    public CitasController(MedicoService medicoService, MedicoDTOService medicoDTOService,
+                           UsuarioDTOService usuarioDTOService, PacienteService pacienteService, PacienteDTOService pacienteDTOService,
+                           CitaDTOService citaDTOService) {
         this.medicoService = medicoService;
         this.medicoDTOService = medicoDTOService;
-        this.usuarioService = usuarioService;
         this.usuarioDTOService = usuarioDTOService;
         this.pacienteService = pacienteService;
         this.pacienteDTOService = pacienteDTOService;
-        this.citaService = citaService;
         this.citaDTOService = citaDTOService;
-        this.datosService = datosService;
-        this.datosDTOService = datosDTOService;
     }
 
     private boolean verificarUsuarioRolAttributes(Model model, UsuarioDTO usuarioLog, Integer userId, CitaDTORequest cita) {
