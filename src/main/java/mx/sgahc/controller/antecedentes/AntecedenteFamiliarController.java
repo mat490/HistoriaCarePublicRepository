@@ -40,41 +40,28 @@ import java.util.List;
 @Controller
 @RequestMapping("/antecedentes")
 public class AntecedenteFamiliarController {
-    private final AntecedenteFamiliarService antecedenteFamiliarService;
     private final AntecedenteFamiliarDTOService antecedenteFamiliarDTOService;
-    private final PacienteService pacienteService;
     private final PacienteDTOService pacienteDTOService;
-    private final UsuarioService usuarioService;
     private final UsuarioDTOService usuarioDTOService;
-    private final LugarNacimientoService lugarNacimientoService;
     private final LugarNacimientoDTOService lugarNacimientoDTOService;
-    private final EnfermedadService enfermedadService;
     private final EnfermedadDTOService enfermedadDTOService;
-    private final SexoService sexoService;
     private final SexoDTOService sexoDTOService;
-    private final ParentescoService parentescoService;
     private final ParentescoDTOService parentescoDTOService;
-    private final RazonFallecimientoService razonFallecimientoService;
     private final RazonFallecimientoDTOService razonFallecimientoDTOService;
 
     @Autowired
-    public AntecedenteFamiliarController(AntecedenteFamiliarService antecedenteFamiliarService, AntecedenteFamiliarDTOService antecedenteFamiliarDTOService, PacienteService pacienteService, PacienteDTOService pacienteDTOService, UsuarioService usuarioService, UsuarioDTOService usuarioDTOService, LugarNacimientoService lugarNacimientoService, LugarNacimientoDTOService lugarNacimientoDTOService, EnfermedadService enfermedadService, EnfermedadDTOService enfermedadDTOService, SexoService sexoService, SexoDTOService sexoDTOService, ParentescoService parentescoService, ParentescoDTOService parentescoDTOService, RazonFallecimientoService razonFallecimientoService, RazonFallecimientoDTOService razonFallecimientoDTOService) {
-        this.antecedenteFamiliarService = antecedenteFamiliarService;
+    public AntecedenteFamiliarController(AntecedenteFamiliarDTOService antecedenteFamiliarDTOService, PacienteDTOService pacienteDTOService,
+                                         UsuarioDTOService usuarioDTOService, LugarNacimientoDTOService lugarNacimientoDTOService,
+                                         EnfermedadDTOService enfermedadDTOService, SexoDTOService sexoDTOService,
+                                         ParentescoDTOService parentescoDTOService, RazonFallecimientoDTOService razonFallecimientoDTOService) {
         this.antecedenteFamiliarDTOService = antecedenteFamiliarDTOService;
-        this.pacienteService = pacienteService;
         this.pacienteDTOService = pacienteDTOService;
-        this.usuarioService = usuarioService;
         this.usuarioDTOService = usuarioDTOService;
-        this.lugarNacimientoService = lugarNacimientoService;
         this.lugarNacimientoDTOService = lugarNacimientoDTOService;
-        this.enfermedadService = enfermedadService;
         this.enfermedadDTOService = enfermedadDTOService;
-        this.sexoService = sexoService;
         this.sexoDTOService = sexoDTOService;
-        this.parentescoService = parentescoService;
         this.parentescoDTOService = parentescoDTOService;
 
-        this.razonFallecimientoService = razonFallecimientoService;
         this.razonFallecimientoDTOService = razonFallecimientoDTOService;
     }
 
