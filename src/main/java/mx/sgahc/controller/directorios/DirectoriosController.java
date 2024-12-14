@@ -52,38 +52,21 @@ import java.util.Set;
 @RequestMapping("/directorios")
 public class DirectoriosController {
 
-    private final MedicoService medicoService;
     private final MedicoDTOService medicoDTOService;
-    private final UsuarioService usuarioService;
     private final UsuarioDTOService usuarioDTOService;
-    private final PacienteService pacienteService;
     private final PacienteDTOService pacienteDTOService;
-    private final CitaService citaService;
-    private final CitaDTOService citaDTOService;
-    private final DatosService datosService;
-    private final DatosDTOService datosDTOService;
-    private final EspecialidadService especialidadService;
     private final EspecialidadDTOService especialidadDTOService;
-    private final DireccionService direccionService;
     private final DireccionDTOService direccionDTOService;
 
     @Autowired
-    public DirectoriosController(MedicoService medicoService, MedicoDTOService medicoDTOService, UsuarioService usuarioService, UsuarioDTOService usuarioDTOService,
-                                 PacienteService pacienteService, PacienteDTOService pacienteDTOService, CitaService citaService, CitaDTOService citaDTOService, DatosService datosService, DatosDTOService datosDTOService,
-                                 EspecialidadService especialidadService, EspecialidadDTOService especialidadDTOService, DireccionService direccionService, DireccionDTOService direccionDTOService) {
-        this.medicoService = medicoService;
+    public DirectoriosController(MedicoDTOService medicoDTOService, UsuarioDTOService usuarioDTOService,
+                                 PacienteDTOService pacienteDTOService,
+                                 EspecialidadDTOService especialidadDTOService,
+                                 DireccionDTOService direccionDTOService) {
         this.medicoDTOService = medicoDTOService;
-        this.usuarioService = usuarioService;
         this.usuarioDTOService = usuarioDTOService;
-        this.pacienteService = pacienteService;
         this.pacienteDTOService = pacienteDTOService;
-        this.citaService = citaService;
-        this.citaDTOService = citaDTOService;
-        this.datosService = datosService;
-        this.datosDTOService = datosDTOService;
-        this.especialidadService = especialidadService;
         this.especialidadDTOService = especialidadDTOService;
-        this.direccionService = direccionService;
         this.direccionDTOService = direccionDTOService;
     }
 
