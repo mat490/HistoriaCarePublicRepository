@@ -40,18 +40,14 @@ import java.util.List;
 @RequestMapping("/registro")
 public class RegistroController {
 
-    private final UsuarioService usuarioService;
     private final UsuarioDTOService usuarioDTOService;
 
-    private final RolService rolService;
     private final RolDTOService rolDTOService;
 
     @Autowired
     public RegistroController(UsuarioService usuarioService, UsuarioDTOService usuarioDTOService, RolService rolService, RolDTOService rolDTOService) {
-        this.usuarioService = usuarioService;
         this.usuarioDTOService = usuarioDTOService;
 
-        this.rolService = rolService;
         this.rolDTOService = rolDTOService;
     }
 
