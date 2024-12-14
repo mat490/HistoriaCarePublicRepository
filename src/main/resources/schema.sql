@@ -452,7 +452,3 @@ CREATE TABLE acceso_historial_clinico (
 );
 
 
-SELECT * FROM niveles_permisos;
-INSERT INTO niveles_permisos(nivel) VALUES (1);
-INSERT INTO roles(id_np, rol, descripcion) VALUES (1, 'admin', 'administrador');
-SELECT * FROM usuarios;
