@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title th:text="${tituloPagina}">Tratamientos</title>
+    <link th:href="@{/bootstrap/css/bootstrap.min.css}" rel="stylesheet">
+    <link th:href="@{/iconos/bootstrap-icons.css}" rel="stylesheet">
+    <link th:href="@{/temas/miestilo.css}" rel="stylesheet">
+</head>
+<body class="bg-gradient-blue text-light">
+<header th:replace="~{templates/template :: header}"></header>
+
+<div class="container py-5">
+    <div class="text-center mb-4">
+        <h2 th:text="${tituloLista}">Tratamientos del Paciente</h2>
+    </div>
+    <div class="row justify-content-center">
+
+        <!-- Mensaje si no hay tratamientos -->
+        <div th:if="${tratamientosSize == 0}" class="col-12 text-center">
+            <h3 class="text-warning">No se encontraron tratamientos</h3>
+        </div>
+
+        <!-- Cards de tratamientos -->
+        <div th:if="${tratamientosSize > 0}" class="row row-cols-1 row-cols-md-3 g-4">
+            <div class="col" th:each="tratamiento : ${tratamientos}">
+                <div class="card shadow-lg h-100">
+                    <div class="card-header bg-primary text-white">
+                        <h5 class="card-title mb-0" th:text="'Tratamiento: ' + ${tratamiento.medicamento}"></h5>
+                    </div>
+                    <div class="card-body">
+                        <p><strong>Fecha Inicio:</strong> <span th:text="${#dates.format(tratamiento.fechaInicio, 'dd/MM/yyyy HH:mm')}"></span></p>
+                        <p><strong>Diagnostico:</strong> <span th:text="${tratamiento.diagnostico}"></span>
+                        <a th:href="@{/diagnosticos/diagnostico-paciente/{id} (id=${tratamiento.diagnosticoId})}">
+                            <i class="bi bi-eye"></i> Ver Detalle</a></p>
+                        <p><strong>Medicamento:</strong> <span th:text="${tratamiento.medicamento}"></span></p>
+                        <p><strong>Duración:</strong> <span th:text="${tratamiento.duracion}"></span></p>
+                        <p><strong>Dosis:</strong> <span th:text="${tratamiento.dosis}"></span></p>
+                        <p><strong>Frecuencia:</strong> <span th:text="${tratamiento.frecuencia}"></span></p>
+                        <p><strong>Notas:</strong></p>
+                        <p th:text="${tratamiento.notasAdicionales}"></p>
+                    </div>
+                    <div class="card-footer">
+                        <div class="d-flex justify-content-end">
+                            <button th:data-tratamiento-id="${tratamiento.id}" class="btn btn-danger btn-sm delete-btn" sec:authorize="hasAuthority('Medico')">
+                                <i class="bi bi-trash"></i> Eliminar
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal de confirmación -->
+<div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title text-dark" id="deleteModalLabel">Confirmación de Eliminación</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body text-dark">
+                ¿Estás seguro de que deseas eliminar este tratamiento?
+                <span class="badge rounded-pill bg-info"> Se le informará a la otra parte </span>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                <a href="#" id="confirmDeleteBtn" class="btn btn-danger">Eliminar</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script th:src="@{/bootstrap/js/bootstrap.bundle.min.js}"></script>
+<script th:inline="javascript">
+    document.addEventListener('DOMContentLoaded', function() {
+        const deleteButtons = document.querySelectorAll('.delete-btn');
+        const deleteModal = new bootstrap.Modal(document.getElementById('deleteModal'));
+        const confirmDeleteBtn = document.getElementById('confirmDeleteBtn');
+
+        deleteButtons.forEach(button => {
+            button.addEventListener('click', function() {
+                const tratamientoId = this.getAttribute('data-tratamiento-id');
+                const baseUrl = /*[[@{/tratamientos/eliminar-tratamiento/}]]*/ '';
+                confirmDeleteBtn.href = baseUrl + tratamientoId;
+                deleteModal.show();
+            });
+        });
+    });
+</script>
+
+</body>
+</html>

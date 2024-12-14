@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title th:text="${tituloPagina}"></title>
+    <link th:href="@{/bootstrap/css/bootstrap.min.css}" rel="stylesheet">
+    <link th:href="@{/temas/miestilo.css}" rel="stylesheet">
+</head>
+<body class="bg-gradient-blue text-light">
+<header th:replace="~{templates/template :: header}"></header>
+<div class="container my-5">
+    <h1 class="mb-4">Detalles del Tratamiento</h1>
+    <div class="text-end" sec:authorize="hasAuthority('Medico')">
+        <a th:href="@{/recetas/modificar-receta/{id}(id=${tratamiento.id})}" class="btn btn-warning me-5 mb-2">
+            <i class="bi bi-pencil h3"></i> <span class="h3">Modificar</span>
+        </a>
+    </div>
+    <div class="card">
+        <div class="card-header">
+            <h2>Tratamiento: <span th:text="${tratamiento.medicamento}" class="h3">Medicamento</span></h2>
+        </div>
+
+        <div class="card-body">
+            <table class="table table-striped">
+                <tbody>
+                <tr>
+                    <th scope="row">ID</th>
+                    <td th:text="${tratamiento.id}">1</td>
+                </tr>
+                <tr>
+                    <th scope="row">Paciente</th>
+                    <td th:text="${tratamiento.paciente}">1</td>
+                </tr>
+                <tr>
+                    <th scope="row">Medico</th>
+                    <td th:text="${tratamiento.medico}">1</td>
+                </tr>
+                <tr>
+                    <th scope="row">Fecha de Inicio</th>
+                    <td th:text="${#dates.format(tratamiento.fechaInicio, 'yyyy-MM-dd HH:mm')}"></td>
+                </tr>
+                <tr>
+                    <th scope="row">Duración</th>
+                    <td th:text="${tratamiento.duracion}">Duracion</td>
+                </tr>
+                <tr>
+                    <th scope="row">Notas Adicionales</th>
+                    <td th:text="${tratamiento.notasAdicionales}">Detalles adicionales...</td>
+                </tr>
+                <tr>
+                    <th scope="row">Dosis</th>
+                    <td th:text="${tratamiento.dosis}">500mg</td>
+                </tr>
+                <tr>
+                    <th scope="row">Frecuencia</th>
+                    <td th:text="${tratamiento.frecuencia}">Frecuencia</td>
+                </tr>
+                <tr>
+                    <th scope="row">Diagnóstico Relacionado</th>
+                    <td th:text="${tratamiento.diagnostico}">Diagnóstico asociado</td>
+                </tr>
+                <tr>
+                    <th scope="row">Medicamento</th>
+                    <td th:text="${tratamiento.medicamento}">Nombre del Medicamento</td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

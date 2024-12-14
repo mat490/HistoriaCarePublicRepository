@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/html"
+      lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Inicio Sesion</title>
+    <link th:href="@{/bootstrap/css/bootstrap.min.css}" rel="stylesheet">
+    <link th:href="@{/iconos/bootstrap-icons.css}" rel="stylesheet">
+    <link th:href="@{/temas/miestilo.css}" rel="stylesheet">
+</head>
+<body class="bg-gradient-blue text-light">
+<header th:replace="~{templates/template :: header}"></header>
+<div class="container">
+    <h1 class="text-center my-4">Generador de Recetas Médicas</h1>
+    <div class="row justify-content-center">
+        <div class="col-md-8 col-lg-6" th:if="${medicoCompleto == null}">
+            <div class="card shadow-lg">
+                <div class="card-header bg-primary text-white">
+                    <h5 class="mb-0">Datos del Médico</h5>
+                </div>
+                <div class="card-body">
+                    <p>Por favor ingresa tus datos exclusivos de médico para continuar:</p>
+                    <a th:href="@{/registro/registro-medico}" class="btn btn-primary w-100 mt-3">
+                        <i class="bi bi-person-plus"></i> Ingresar Datos de Médico
+                    </a>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-8 " th:if="${medicoCompleto != null}">
+            <div class="card">
+
+                <div class="card-body mt-5">
+                    <form id="recetaForm" th:action="@{/recetas/receta-save}" th:object="${tratamientoNuevo}"
+                          method="POST">
+
+                        <div class="col-12 my-2">
+                            <div class="col-md-12 text-center mb-4" th:if="${medicoCompleto != null}">
+                                <a th:href="@{/diagnosticos/crear-diagnostico}" class="btn btn-primary btn-lg">
+                                    <i class="bi bi-journal-plus"></i> Realizar Diagnóstico
+                                </a>
+                            </div>
+                            <label for="diagnostico" class="form-label">Diagnostico
+                                <span class="badge bg-danger rounded-pill"> * requerido</span></label>
+                            <select type="text" class="form-select " name="diagnostico" required th:field="${tratamientoNuevo.diagnosticoId}">
+                                <option id="diagnostico"
+                                        th:each="diag : ${selectDiag}" th:value="${diag.id}" th:text="${diag}"></option>
+                            </select>
+                        </div>
+
+                        <!-- Comprobar en el servicio apoyandome en
+                         el repositorio con la consulta derivada findMedicamentoByMedicamento(String medicamento); -->
+                        <div class="mb-3">
+                            <label for="medicamento" class="form-label">Medicamento</label>
+                            <select type="text" class="form-select " name="medicamento" required th:field="${tratamientoNuevo.medicamentoId}">
+                                <option id="medicamento"
+                                        th:each="med : ${selectMedic}" th:value="${med.id}" th:text="${med.nombreGenerico}"></option>
+                            </select>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label for="dosis" class="form-label">Dosis</label>
+                                    <input type="text" class="form-control" id="dosis" required th:field="${tratamientoNuevo.dosis}">
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label for="frecuencia" class="form-label">Frecuencia</label>
+                                    <input type="text" class="form-control" id="frecuencia" required th:field="${tratamientoNuevo.frecuencia}">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="indicaciones" class="form-label">Indicaciones Adicionales</label>
+                            <textarea class="form-control" id="indicaciones" rows="3"
+                                      th:field="${tratamientoNuevo.notasAdicionales}"></textarea>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="fechaInicio" class="form-label">Fecha de Inicio</label>
+                            <input type="datetime-local" class="form-control" id="fechaInicio" required th:field="${tratamientoNuevo.fechaInicio}">
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="duracion" class="form-label">Duración del Tratamiento</label>
+                            <input type="text" class="form-control" id="duracion" placeholder="Días" required th:field="${tratamientoNuevo.duracion}">
+                        </div>
+                        <button type="submit" class="btn btn-primary w-100">Generar Receta</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+</body>
+</html>

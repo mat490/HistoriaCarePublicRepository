@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title th:text="${tituloPagina}">Diagnósticos</title>
+    <link th:href="@{/bootstrap/css/bootstrap.min.css}" rel="stylesheet">
+    <link th:href="@{/iconos/bootstrap-icons.css}" rel="stylesheet">
+    <link th:href="@{/temas/miestilo.css}" rel="stylesheet">
+</head>
+<body class="bg-gradient-blue text-light">
+<header th:replace="~{templates/template :: header}"></header>
+
+<div class="container py-5">
+    <div class="text-center mb-4">
+        <h2 th:text="${tituloLista}">Diagnósticos de Pacientes</h2>
+    </div>
+    <div class="row justify-content-center">
+        <!-- Card de datos del médico cuando no está completo -->
+        <div class="col-md-8 col-lg-6" th:if="${medicoCompleto == null}" sec:authorize="hasAuthority('Medico')">
+            <div class="card shadow-lg">
+                <div class="card-header bg-primary text-white">
+                    <h5 class="mb-0">Datos del Médico</h5>
+                </div>
+                <div class="card-body">
+                    <p>Por favor ingresa tus datos exclusivos de médico para continuar:</p>
+                    <a th:href="@{/registro/registro-medico}" class="btn btn-primary w-100 mt-3">
+                        <i class="bi bi-person-plus"></i> Ingresar Datos de Médico
+                    </a>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-8 text-center mb-4" th:if="${medicoCompleto != null}" sec:authorize="hasAuthority('Medico')">
+            <a th:href="@{/diagnosticos/crear-diagnostico}" class="btn btn-primary btn-lg">
+                <i class="bi bi-journal-plus"></i> Realizar Diagnóstico
+            </a>
+        </div>
+
+        <!-- Mensaje si no hay diagnósticos -->
+        <div th:if="${diagnosticosSize == 0 and (medicoCompleto != null or pacienteCompleto != null)}"  class="col-12 text-center">
+            <i class="bi bi-clock h1 text-warning"></i>
+            <h3 class="text-warning">No se encontraron diagnósticos</h3>
+        </div>
+
+        <!-- Cards de diagnósticos -->
+        <div th:if="${diagnosticosSize > 0 and medicoCompleto != null}" class="row row-cols-1 row-cols-md-3 g-4">
+            <div class="col" th:each="diagnostico : ${diagnosticos}">
+                <div class="card shadow-lg h-100">
+                    <div class="card-header bg-primary text-white">
+                        <h5 class="card-title mb-0" th:text="'Paciente: ' + ${diagnostico.paciente}"></h5>
+                    </div>
+                    <div class="card-body">
+                        <p><strong>Fecha:</strong> <span th:text="${#dates.format(diagnostico.fecha, 'dd/MM/yyyy')}"></span></p>
+                        <p><strong>Diagnóstico:</strong></p>
+                        <p th:text="${diagnostico.descripcion}"></p>
+                    </div>
+                    <div class="card-footer">
+                        <div class="d-flex justify-content-end">
+                            <a th:href="@{/diagnosticos/diagnostico-paciente/{id} (id=${diagnostico.id})}" class="btn btn-secondary btn-sm me-2">
+                                <i class="bi bi-eye"></i> Ver Detalle
+                            </a>
+                            <button th:data-diagnostico-id="${diagnostico.id}"
+                                    sec:authorize="hasAuthority('Medico')" class="btn btn-danger btn-sm delete-btn" >
+                                <i class="bi bi-trash"></i> Eliminar
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Paginación -->
+        <div th:if="${diagnosticosSize > 0 and medicoCompleto != null}"  class="mt-4">
+            <nav th:replace="~{templates/pag-nav::paginador}"></nav>
+        </div>
+    </div>
+</div>
+<!-- Modal de confirmación -->
+<div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title text-dark" id="deleteModalLabel">Confirmación de Eliminación</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body text-dark">
+                ¿Estás seguro de que deseas eliminar este diagnostico?
+                <span class="badge rounded-pill bg-info"> Se le informará a la otra parte </span>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                <a href="#" id="confirmDeleteBtn" class="btn btn-danger">Eliminar</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script th:inline="javascript">
+    document.addEventListener('DOMContentLoaded', function() {
+        const deleteButtons = document.querySelectorAll('.delete-btn');
+        const deleteModal = new bootstrap.Modal(document.getElementById('deleteModal'));
+        const confirmDeleteBtn = document.getElementById('confirmDeleteBtn');
+
+        deleteButtons.forEach(button => {
+            button.addEventListener('click', function() {
+                const diagnosticoId = this.getAttribute('data-diagnostico-id');
+                const baseUrl = /*[[@{/diagnosticos/eliminar-diagnostico/}]]*/ '';
+                confirmDeleteBtn.href = baseUrl + diagnosticoId;
+                deleteModal.show();
+            });
+        });
+    });
+</script>
+
+
+</body>
+</html>

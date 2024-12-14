@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/html"
+      lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title th:text="${tituloPagina}"></title>
+    <link th:href="@{/bootstrap/css/bootstrap.min.css}" rel="stylesheet">
+    <link th:href="@{/iconos/bootstrap-icons.css}" rel="stylesheet">
+    <link th:href="@{/temas/miestilo.css}" rel="stylesheet">
+</head>
+
+<body class="bg-gradient-blue justify-content-center align-items-center d-flex min-vh-100">
+<div class="p-4 bg-light w-50 rounded mt-2 container shadow">
+    <h1 class="text-center">Registrate tu dirección</h1>
+
+    <div class="container">
+
+        <form class="row" th:action="@{/registro/save-direccion}" th:object="${direccionNueva}" method="POST">
+
+            <div th:if="${#fields.hasErrors('*')}" class="alert alert-danger" role="alert">
+                Verifique los siguientes errores:
+                <ul>
+                    <li th:each="err : ${#fields.errors('*')}" th:text="${err}"></li>
+                </ul>
+            </div>
+            <div th:replace="~{templates/template :: alerts}"></div>
+
+            <div class="col-12 col-md-6 my-2">
+                <label for="pais" class="form-label">País <span class="badge bg-danger rounded-pill"> * requerido</span></label>
+                <input id="pais" type="text" class="form-control " name="pais" required
+                th:field="*{pais}">
+            </div>
+            <div class="col-12 col-md-6 my-2">
+                <label for="estado" class="form-label">Estado <span class="badge bg-danger rounded-pill"> * requerido</span></label>
+                <input id="estado" type="text" class="form-control " name="estado" required
+                th:field="*{estado}">
+            </div>
+            <div class="col-12 col-md-6 my-2">
+                <label for="municipio" class="form-label">Municipio <span class="badge bg-danger rounded-pill"> * requerido</span></label>
+                <input id="municipio" type="text" class="form-control " name="municipio" required
+                th:field="*{municipio}">
+            </div>
+
+            <div class="col-12 col-md-6 my-2">
+                <label for="colonia" class="form-label">Colonia <span class="badge bg-danger rounded-pill"> * requerido</span></label>
+                <input id="colonia" type="text" class="form-control " name="colonia" required
+                th:field="*{colonia}">
+            </div>
+
+            <div class="col-12 col-md-6 my-2">
+                <label for="calle" class="form-label">Calle <span class="badge bg-danger rounded-pill"> * requerido</span></label>
+                <input id="calle" type="text" class="form-control " name="calle" required
+                th:field="*{calle}">
+            </div>
+
+            <div class="col-12 col-md-6 my-2">
+                <label for="cp" class="form-label">Código Postal</label>
+                <input id="cp" type="text" class="form-control " name="cp" required
+                th:field="*{codigoPostal}">
+            </div>
+
+            <div class="col-12 col-md-6 my-2">
+                <label for="numCasa" class="form-label">Número de casa</label>
+                <input id="numCasa" type="number" class="form-control " name="numCasa" required
+                th:field="*{numeroCasa}">
+            </div>
+
+            <div class="col-12 text-center my-2">
+                <button type="submit" class="btn btn-success rounded-pill p-2 w-50">Continuar</button>
+            </div>
+            <input type="hidden" name="id" th:value="${direccionNueva.id}"/>
+
+        </form>
+    </div>
+
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

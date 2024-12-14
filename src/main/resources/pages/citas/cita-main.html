@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title th:text="${tituloPagina}">Citas Médicas</title>
+    <link th:href="@{/bootstrap/css/bootstrap.min.css}" rel="stylesheet">
+    <link th:href="@{/iconos/bootstrap-icons.css}" rel="stylesheet">
+    <link th:href="@{/temas/miestilo.css}" rel="stylesheet">
+</head>
+
+<body class="bg-gradient-blue text-light">
+<header th:replace="~{templates/template :: header}"></header>
+
+<div class="container-fluid py-5">
+    <div class="text-center mb-4">
+        <h2>Citas Médicas</h2>
+    </div>
+    <div class="text-end">
+        <a th:href="@{/citas/citas-historial}" th:if="${medicoCompleto != null and pacienteCompleto != null}"
+           class="btn btn-warning me-2 mb-2">
+            <i class="bi bi-clock-history h5"></i> <span class="h5">Historial</span>
+        </a>
+    </div>
+    <div class="row justify-content-center">
+        <!-- Card de datos del médico cuando no está completo -->
+        <div class="col-md-8 col-lg-6" th:if="${medicoCompleto == null}" sec:authorize="hasAuthority('Medico')">
+            <div class="card shadow-lg">
+                <div class="card-header bg-primary text-white">
+                    <h5 class="mb-0">Datos del Médico</h5>
+                </div>
+                <div class="card-body">
+                    <p>Por favor ingresa tus datos exclusivos de médico para continuar:</p>
+                    <a th:href="@{/registro/registro-medico}" class="btn btn-primary w-100 mt-3">
+                        <i class="bi bi-person-plus"></i> Ingresar Datos de Médico
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Card de datos del paciente cuando no está completo -->
+        <div class="col-md-8 col-lg-6" th:if="${pacienteCompleto == null}" sec:authorize="hasAuthority('Paciente')">
+            <div class="card shadow-lg">
+                <div class="card-header bg-primary text-white">
+                    <h5 class="mb-0">Datos del Paciente</h5>
+                </div>
+                <div class="card-body">
+                    <p>Por favor ingresa algunos datos, necesarios para completar tu historial clinico,
+                        antes de agendar una cita</p>
+                    <a th:href="@{/registro/registro-paciente}" class="btn btn-primary w-100 mt-3">
+                        <i class="bi bi-person-plus"></i> Ingresar Datos de Paciente
+                    </a>
+                </div>
+            </div>
+        </div>
+
+
+        <!-- Tabla de citas cuando el médico está completo o el paciente existe -->
+        <div class="col-12" th:if="${medicoCompleto != null and pacienteCompleto != null}">
+                <div th:if="${citasSize > 0}" class="d-flex justify-content-end mb-3" sec:authorize="hasAuthority('Paciente')">
+                    <a th:href="@{/citas/cita-nueva}" class="btn btn-primary">
+                        <i class="bi bi-plus-circle me-1 h5"></i> <span class="h5">Añadir Cita</span>
+                    </a>
+                </div>
+                <div th:if="${citasSize == 0}" class="d-flex justify-content-center m-5 p-5" sec:authorize="hasAuthority('Paciente')">
+                    <a th:href="@{/citas/cita-nueva}" class="col-12 btn btn-primary ">
+                        <i class="bi bi-plus-circle me-1 h2"></i> <span class="h2">Añadir Cita</span>
+                    </a>
+                </div>
+                <div th:if="${citasSize == 0}" class="d-flex justify-content-center m-5 p-5">
+                    <h2 class="col-12 text-bg-warning text-center">
+                        Sin ninguna cita pendiente
+                    </h2>
+
+                </div>
+
+            <div th:if="${citas != null and citasSize > 0}" class="table-responsive">
+            <table  class="table table-dark table-striped table-hover align-middle">
+                    <thead class="table-dark">
+                    <tr>
+                        <th scope="col">Identificador</th>
+                        <th scope="col">Médico</th>
+                        <th scope="col">Paciente</th>
+                        <th scope="col">Fecha</th>
+                        <th scope="col" class="text-center">Operaciones</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="ct : ${citas}">
+                        <td th:text="${ct.id}"></td>
+                        <td th:text="${ct.medico}"></td>
+                        <td th:text="${ct.paciente}"></td>
+                        <td th:text="${ct.fecha}"></td>
+                        <td class="text-center">
+                            <a th:href="@{/citas/update-cita/{id} (id=${ct.id})}" class="btn btn-success btn-sm me-2">
+                                <i class="bi bi-pencil"></i> Modificar
+                            </a>
+                            <button type="button" class="btn btn-danger btn-sm delete-btn" th:data-cita-id="${ct.id}">
+                                <i class="bi bi-trash"></i> Eliminar
+                            </button>
+
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div th:if="${citas != null and citasSize > 0}">
+                <nav th:replace="~{templates/pag-nav::paginador}"></nav>
+            </div>
+        </div>
+
+    </div>
+</div>
+<!-- Modal de confirmación -->
+<div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title text-dark" id="deleteModalLabel">Confirmación de Eliminación</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body text-dark">
+                ¿Estás seguro de que deseas eliminar esta cita?
+                <span class="badge rounded-pill bg-info"> Se le informará a la otra parte </span>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                <a href="#" id="confirmDeleteBtn" class="btn btn-danger">Eliminar</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script th:inline="javascript">
+    document.addEventListener('DOMContentLoaded', function() {
+        const deleteButtons = document.querySelectorAll('.delete-btn');
+        const deleteModal = new bootstrap.Modal(document.getElementById('deleteModal'));
+        const confirmDeleteBtn = document.getElementById('confirmDeleteBtn');
+
+        deleteButtons.forEach(button => {
+            button.addEventListener('click', function() {
+                const citaId = this.getAttribute('data-cita-id');
+                const baseUrl = /*[[@{/citas/eliminar-cita/}]]*/ '';
+                confirmDeleteBtn.href = baseUrl + citaId;
+                deleteModal.show();
+            });
+        });
+    });
+</script>
+</body>
+</html>

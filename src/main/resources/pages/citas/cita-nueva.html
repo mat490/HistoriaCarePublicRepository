@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title th:text="${tituloPagina}"></title>
+    <link th:href="@{/bootstrap/css/bootstrap.min.css}" rel="stylesheet">
+    <link th:href="@{/iconos/bootstrap-icons.css}" rel="stylesheet">
+    <link th:href="@{/temas/miestilo.css}" rel="stylesheet">
+</head>
+
+<body class="bg-gradient-blue justify-content-center align-items-center d-flex min-vh-100">
+<div class="p-4 bg-light w-50 rounded mt-2 container shadow">
+    <div th:replace="~{templates/template :: alerts}"></div>
+    <h1 class="text-center" th:text="${tituloPagina}"></h1>
+    <div class="container">
+        <div class="d-flex justify-content-around mt-4 mb-2">
+            <a th:if="${pacienteCompleto != null}" th:href="@{/citas/cita-main}"
+               class="btn btn-danger text-start">
+                <i class=" me-1"></i> Cancelar
+            </a>
+            <a th:if="${pacienteCompleto != null}" th:href="@{/directorios/buscar-medicos}"
+               class="btn btn-primary text-end">
+                <i class="bi bi-plus-circle me-1"></i> Buscar medicos
+            </a>
+
+        </div>
+        <form class="row" th:action="@{/citas/cita-save}" th:object="${citaNueva}" method="post"
+              onsubmit="changeButton(this)">
+
+            <div th:if="${#fields.hasErrors('*')}" class="alert alert-danger" role="alert">
+                Verifique los siguientes errores:
+                <ul>
+                    <li th:each="err : ${#fields.errors('*')}" th:text="${err}"></li>
+                </ul>
+            </div>
+
+            <div class="col-12 col-md-6 my-2" th:if="${selPacientes}">
+                <label for="paciente" class="form-label"> <span class="badge bg-danger rounded-pill"> * requerido</span></label>
+                <select id="paciente" class="form-select" name="paciente" required th:field="${citaNueva.pacienteId}">
+                    <option th:each="pac : ${selPacientes}" th:value="${pac.id}" th:text="${pac}">Paciente</option>
+                </select>
+            </div>
+
+            <div class="col-12 col-md-6 my-2" th:if="${selMedicos}">
+                <label for="medico" class="form-label"> <span class="badge bg-danger rounded-pill"> * requerido</span></label>
+                <select id="medico" class="form-select" name="medico" required th:field="${citaNueva.medicoId}">
+                    <option th:each="med : ${selMedicos}" th:value="${med.id}" th:text="${med}">Medico</option>
+                </select>
+            </div>
+
+            <div class="col-12 col-md-6 my-2">
+                    <label for="fecha">Fecha </label>
+                    <input type="datetime-local" class="form-control" id="fecha" name="fecha" required
+                    th:value="${citaNueva.fecha}">
+            </div>
+
+            <div class="col-12 text-center my-2">
+                <button type="submit"
+                        class="btn btn-success rounded-pill p-2 w-50"
+                        id="submitButton">
+                    Agendar Cita
+                </button>
+            </div>
+            <input type="hidden" name="id" th:field="${citaNueva.id}" />
+            <input type="hidden" name="medicoId" th:if="${selMedicos == null}" th:field="${citaNueva.medicoId}" />
+            <input type="hidden" name="pacienteId" th:if="${selPacientes == null}" th:field="${citaNueva.pacienteId}" />
+        </form>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+    function changeButton(form) {
+        // Obtén el botón usando su ID
+        const button = document.getElementById("submitButton");
+
+        // Cambia la clase y el contenido del botón
+        button.className = "btn btn-primary";
+        button.innerHTML = `
+        <span class="spinner-grow spinner-grow-md"></span>
+        Loading..
+    `;
+        button.disabled = true; // Desactiva el botón para evitar múltiples clics
+
+        // Deja que el formulario se envíe
+        return true;
+    }
+</script>
+</body>
+</html>

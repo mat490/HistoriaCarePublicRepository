@@ -1,0 +1,29 @@
+server:
+  port: 8090
+
+
+spring:
+  application:
+    name: historia-care
+  #configuración de thymeleaf
+  thymeleaf:
+    prefix: classpath:/pages/
+    suffix: .html
+  #Base de datos conexión
+  datasource:
+    url: jdbc:mariadb://localhost:3306/sgahc
+    username: root
+    password: ****
+    driver-class-name: org.mariadb.jdbc.Driver
+
+
+
+#LOGGING LEVEL
+logging:
+  level:
+    root: INFO
+# JWT
+jwt:
+  secret: 5f39c83d2d0482e07b5306f3f5a0fd8e1b4e9844987121ba4b99f3f4805fd4f85cc0f24ece8556dd10456a45d20cd2d61e7c36a77583674be979b071b869f34f
+  expirationDateInMs: 1800
+  refreshExpirationDateInMs: 900

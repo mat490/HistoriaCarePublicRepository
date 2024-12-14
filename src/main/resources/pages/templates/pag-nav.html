@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+	<link th:href="@{/bootstrap/css/bootstrap.min.css}" rel="stylesheet">
+</head>
+<body>
+<nav th:fragment="paginador">
+	<ul class="pagination pagination-lg justify-content-center my-4">
+		<!-- Botón "Primera" -->
+		<li class="page-item" th:classappend="${page.first} ? 'disabled' : ''">
+			<a class="page-link btn" th:if="${not page.first}" th:href="@{${page.url}(page=0)}">Primera</a>
+			<span class="page-link btn" th:if="${page.first}">Primera</span>
+		</li>
+
+		<!-- Botón "Anterior" -->
+		<li class="page-item " th:classappend="${not page.hasPrevious} ? 'disabled' : ''">
+			<a class="page-link btn" th:if="${page.hasPrevious}" th:href="@{${page.url}(page=${page.paginaActual-2})}">Anterior</a>
+			<span class="page-link btn" th:if="${not page.hasPrevious}">Anterior</span>
+		</li>
+
+		<!-- Números de página -->
+		<li class="page-item " th:each="item : ${page.paginas}" th:classappend="${item.actual} ? 'active' : ''">
+			<a class="page-link btn" th:if="${not item.actual}" th:href="@{${page.url}(page=${item.numero-1})}" th:text="${item.numero}"></a>
+			<span class="page-link btn" th:if="${item.actual}" th:text="${item.numero}"></span>
+		</li>
+
+		<!-- Botón "Siguiente" -->
+		<li class="page-item" th:classappend="${not page.hasNext} ? 'disabled' : ''">
+			<a class="page-link btn" th:if="${page.hasNext}" th:href="@{${page.url}(page=${page.paginaActual})}">Siguiente</a>
+			<span class="page-link btn" th:if="${not page.hasNext}">Siguiente</span>
+		</li>
+
+		<!-- Botón "Última" -->
+		<li class="page-item" th:classappend="${page.last} ? 'disabled' : ''">
+			<a class="page-link btn" th:if="${not page.last}" th:href="@{${page.url}(page=${page.totalPaginas-1})}">Última</a>
+			<span class="page-link btn" th:if="${page.last}">Última</span>
+		</li>
+	</ul>
+</nav>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

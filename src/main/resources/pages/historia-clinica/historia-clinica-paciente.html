@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title th:text="${tituloPagina}">Pacientes</title>
+    <link th:href="@{/bootstrap/css/bootstrap.min.css}" rel="stylesheet">
+    <link th:href="@{/iconos/bootstrap-icons.css}" rel="stylesheet">
+    <link th:href="@{/temas/miestilo.css}" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body class="bg-gradient-blue text-light">
+<header th:replace="~{templates/template :: header}"></header>
+<div class="container mt-5">
+    <h1 class="mb-4">Detalles del Paciente</h1>
+
+    <div class="d-flex justify-content-around my-2">
+        <a th:href="@{/citas/citas-historial/{id}(id=${paciente.id})}" class="btn btn-warning">
+            <i class="bi bi-clock-history"></i> Historial Citas
+        </a>
+        <a th:href="@{/diagnosticos/diagnosticos-de-paciente/{id}(id=${paciente.id})}" class="btn btn-warning">
+            <i class="bi bi-clock-history"></i> Diagnósticos
+        </a>
+        <a th:href="@{/recetas/tratamientos/{id}(id=${paciente.id})}" class="btn btn-warning">
+            <i class="bi bi-clock-history"></i> Tratamientos
+        </a>
+        <a th:href="@{/antecedentes/antecedentes-patologicos/{id}(id=${paciente.id})}" class="btn btn-warning">
+            <i class="bi bi-clock-history"></i> Antecedentes Patológicos
+        </a>
+        <a th:href="@{/antecedentes/antecedentes-familiares/{id}(id=${paciente.id})}" class="btn btn-warning">
+            <i class="bi bi-clock-history"></i> Antecedentes Familiares
+        </a>
+    </div>
+
+    <div class="card my-2">
+        <div class="card-header bg-primary text-white">Información del Paciente</div>
+        <div class="card-body">
+            <table class="table table-striped">
+                <tbody>
+                <tr><th>ID</th><td th:text="${paciente.id}"></td></tr>
+                <tr><th>Paciente</th><td th:text="${paciente.datosPersonales}"></td></tr>
+                <tr><th>Correo Electrónico</th><td th:text="${paciente.correoElectronico}"></td></tr>
+                <tr><th>Teléfono</th><td th:text="${paciente.telefono}"></td></tr>
+                <tr><th>Estado Civil</th><td th:text="${paciente.estadoCivil}"></td></tr>
+                <tr><th>Ocupación</th><td th:text="${paciente.ocupacion}"></td></tr>
+                <tr><th>Grupo Sanguíneo</th><td th:text="${paciente.grupoSanguineo}"></td></tr>
+                <tr><th>RH</th><td th:text="${paciente.rh}"></td></tr>
+                <tr>
+                    <th>Lugar de Nacimiento</th>
+                    <td th:text="${paciente.lugarNacimiento}"></td>
+                </tr>
+                <tr><th>Consumo de sustancias</th><td th:text="${consumoSustancias}"></td></tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- Gráficos -->
+    <div class="row mt-5 mb-3">
+        <!-- Gráfico 1: Visitas al Médico -->
+        <div class="col-md-4" th:if="${visitasPorMesArray != null and !visitasPorMesArray.isEmpty()}">
+            <div class="card">
+                <div class="card-header bg-info text-white">Visitas al Médico (Último año)</div>
+                <div class="card-body">
+                    <canvas id="visitasMedicoChart"></canvas>
+                </div>
+            </div>
+        </div>
+
+        <!-- Gráfico 2: Medicamentos Tomados -->
+        <div class="col-md-4" th:if="${medicamentosArray != null and !medicamentosArray.isEmpty()}">
+            <div class="card">
+                <div class="card-header bg-success text-white">Medicamentos Tomados (Últimos 3 Meses)</div>
+                <div class="card-body">
+                    <canvas id="medicamentosChart"></canvas>
+                </div>
+            </div>
+        </div>
+
+        <!-- Gráfico 3: Enfermedades -->
+        <div class="col-md-4" th:if="${enfermedadesArray != null and !enfermedadesArray.isEmpty()}">
+            <div class="card">
+                <div class="card-header bg-danger text-white">Enfermedades (Último Año)</div>
+                <div class="card-body">
+                    <canvas id="enfermedadesChart"></canvas>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Bootstrap 5 JS -->
+<script th:src="@{/bootstrap/js/bootstrap.bundle.min.js}"></script>
+<script th:inline="javascript">
+    // Datos para los gráficos
+    const visitasMedicoData =  [[${visitasPorMesArray}]];
+    const medicamentosData = {
+        labels: /*[[${medicamentosArray}]]*/ [],
+        data: [[${diasDeConsumoMedArray}]]
+    };
+    const enfermedadesData = {
+        labels: /*[[${enfermedadesArray}]]*/ [],
+        data: [[${diagnosticosEnfermedadesArray}]]
+    };
+    console.log(visitasMedicoData);
+    console.log(medicamentosData);
+    console.log(enfermedadesData);
+    // Configuración de Gráfico 1: Visitas al Médico
+    new Chart(document.getElementById('visitasMedicoChart'), {
+        type: 'bar',
+        data: {
+            labels: ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dic'],
+            datasets: [{
+                label: 'Visitas',
+                data: visitasMedicoData,
+                backgroundColor: 'rgba(54, 162, 235, 0.7)'
+            }]
+        }
+    });
+
+    // Configuración de Gráfico 2: Medicamentos Tomados
+    new Chart(document.getElementById('medicamentosChart'), {
+        type: 'pie',
+        data: {
+            labels: medicamentosData.labels,
+            datasets: [{
+                data: medicamentosData.data,
+                backgroundColor: ['#ff6384', '#36a2eb', '#ffce56']
+            }]
+        }
+    });
+
+    // Configuración de Gráfico 3: Enfermedades
+    new Chart(document.getElementById('enfermedadesChart'), {
+        type: 'doughnut',
+        data: {
+            labels: enfermedadesData.labels,
+            datasets: [{
+                data: enfermedadesData.data,
+                backgroundColor: ['#dc3545', '#28a745', '#ffc107']
+            }]
+        }
+    });
+</script>
+</body>
+</html>

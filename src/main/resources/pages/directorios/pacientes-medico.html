@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title th:text="${tituloPagina}"></title>
+    <link th:href="@{/bootstrap/css/bootstrap.min.css}" rel="stylesheet">
+    <link th:href="@{/iconos/bootstrap-icons.css}" rel="stylesheet">
+    <link th:href="@{/temas/miestilo.css}" rel="stylesheet">
+</head>
+
+<body class="bg-gradient-blue text-light">
+<header th:replace="~{templates/template :: header}"></header>
+
+<div class="container-fluid py-5">
+    <div class="text-center mb-4">
+        <h2 th:text="${tituloPagina}"></h2>
+    </div>
+
+    <div class="row justify-content-center">
+        <!-- Card de datos del médico cuando no está completo -->
+        <div class="col-md-8 col-lg-6" th:if="${medicoCompleto == null}" sec:authorize="hasAuthority('Medico')">
+            <div class="card shadow-lg">
+                <div class="card-header bg-primary text-white">
+                    <h5 class="mb-0">Datos del Médico</h5>
+                </div>
+                <div class="card-body">
+                    <p>Por favor ingresa tus datos exclusivos de médico para continuar:</p>
+                    <a th:href="@{/registro/registro-medico}" class="btn btn-primary w-100 mt-3">
+                        <i class="bi bi-person-plus"></i> Ingresar Datos de Médico
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-8 col-lg-6" th:if="${pacienteCompleto == null}" sec:authorize="hasAuthority('Paciente')">
+            <div class="card shadow-lg">
+                <div class="card-header bg-primary text-white">
+                    <h5 class="mb-0">Datos del Paciente</h5>
+                </div>
+                <div class="card-body">
+                    <p>Por favor ingresa algunos datos, necesarios para completar tu historial clinico,
+                        antes de agendar una cita</p>
+                    <a th:href="@{/registro/registro-paciente}" class="btn btn-primary w-100 mt-3">
+                        <i class="bi bi-person-plus"></i> Ingresar Datos de Paciente
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <div  class="d-flex justify-content-end mb-3"
+              th:if="${pacienteCompleto != null and size > 0}" sec:authorize="hasAuthority('Paciente')">
+            <a  th:href="@{/directorios/buscar-medicos}"
+               class="btn btn-primary" >
+                <i class="bi bi-plus-circle me-1"></i> Buscar medicos
+            </a>
+        </div>
+
+        <div  class="d-flex justify-content-center mb-3"
+              th:if="${pacienteCompleto != null and size == 0}" sec:authorize="hasAuthority('Paciente')">
+            <a  th:href="@{/directorios/buscar-medicos}"
+                class="btn btn-primary col-12" >
+                <i class="bi bi-plus-circle me-1 h2"></i> <span class="h2">Buscar medicos</span>
+            </a>
+        </div>
+
+        <!-- Tabla de citas cuando el médico está completo o el paciente existe -->
+        <div class="col-12" th:if="${medicoCompleto != null and size > 0} "
+             sec:authorize="hasAuthority('Medico')">
+            <div class="table-responsive">
+                <table th:if="${!pacientes.isEmpty()}" class="table table-dark table-striped table-hover align-middle">
+                    <thead class="table-dark">
+                    <tr>
+                        <th scope="col">Identificador</th>
+                        <th scope="col">Paciente</th>
+                        <th scope="col">Teléfono</th>
+                        <th scope="col">Correo Electrónico</th>
+                        <th scope="col">Opciones</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="pac : ${pacientes}">
+                        <td th:text="${pac.id}"></td>
+                        <td th:text="${pac.datosPersonales}"></td>
+                        <td th:text="${pac.telefono}"></td>
+                        <td th:text="${pac.correoElectronico}"></td>
+                        <td>
+                            <a th:href="@{/historias/detalles-paciente/{id} (id=${pac.id})}" class="btn btn-secondary btn-sm">
+                                <i class="bi bi-eye"></i> Ver Detalle
+                            </a>
+                        </td>
+
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+            <nav th:replace="~{templates/pag-nav::paginador}"></nav>
+        </div>
+
+        <!-- Tabla de citas cuando el médico está completo o el paciente existe -->
+        <div class="col-12" th:if="${pacienteCompleto != null and size > 0}"
+             sec:authorize="hasAuthority('Paciente')">
+            <div class="table-responsive">
+                <table th:if="${!medicos.isEmpty()}" class="table table-dark table-striped table-hover align-middle">
+                    <thead class="table-dark">
+                    <tr>
+                        <th scope="col">Medico</th>
+                        <th scope="col">Correo</th>
+                        <th scope="col">Especialidad</th>
+                        <th scope="col">Cedula</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="med : ${medicos}">
+                        <td th:text="${med.datosPersonales.nombre} + ' ' + ${med.datosPersonales.apellido1}"></td>
+                        <td th:text="${med.datosPersonales.usuario.correoElectronico}"></td>
+                        <td th:text="${med.especialidad.especialidad}"></td>
+                        <td th:text="${med.cedula}"></td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+            <nav th:replace="~{templates/pag-nav::paginador}"></nav>
+        </div>
+
+    </div>
+</div>
+<!-- Al final utilicé modal en lugar de toast para los estilos-->
+<div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title text-dark" id="deleteModalLabel">Confirmación de Eliminación</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body text-dark">
+                ¿Estás seguro de que deseas eliminar este paciente de tu directorio?
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                <a href="#" id="confirmDeleteBtn" class="btn btn-danger">Eliminar</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script th:inline="javascript">
+    document.addEventListener('DOMContentLoaded', function() {
+        const deleteButtons = document.querySelectorAll('.delete-btn');
+        const deleteModal = new bootstrap.Modal(document.getElementById('deleteModal'));
+        const confirmDeleteBtn = document.getElementById('confirmDeleteBtn');
+
+        deleteButtons.forEach(button => {
+            button.addEventListener('click', function() {
+                const citaId = this.getAttribute('data-cita-id');
+                const baseUrl = /*[[@{/medicos/eliminar-paciente/}]]*/ '';
+                confirmDeleteBtn.href = baseUrl + citaId;
+                deleteModal.show();
+            });
+        });
+    });
+</script>
+</body>
+</html>
