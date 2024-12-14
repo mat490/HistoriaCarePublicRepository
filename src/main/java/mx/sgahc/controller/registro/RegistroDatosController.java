@@ -39,11 +39,8 @@ public class RegistroDatosController {
 
     private final UsuarioService usuarioService;
     private final UsuarioDTOService usuarioDTOService;
-    private final SexoService sexoService;
     private final SexoDTOService sexoDTOService;
-    private final DireccionService direccionService;
     private final DireccionDTOService direccionDTOService;
-    private final DatosService datosService;
     private final DatosDTOService datosDTOService;
 
 
@@ -51,15 +48,14 @@ public class RegistroDatosController {
     private DatosPersonalesDTORequest datos;
 
     @Autowired
-    public RegistroDatosController(UsuarioService usuarioService, UsuarioDTOService usuarioDTOService, SexoService sexoService, SexoDTOService sexoDTOService,
-                                   DireccionService direccionService, DireccionDTOService direccionDTOService, DatosService datosService, DatosDTOService datosDTOService) {
+    public RegistroDatosController(UsuarioService usuarioService, UsuarioDTOService usuarioDTOService,
+                                   SexoDTOService sexoDTOService,
+                                   DireccionDTOService direccionDTOService,
+                                   DatosDTOService datosDTOService) {
         this.usuarioService = usuarioService;
         this.usuarioDTOService = usuarioDTOService;
-        this.sexoService = sexoService;
         this.sexoDTOService = sexoDTOService;
-        this.direccionService = direccionService;
         this.direccionDTOService = direccionDTOService;
-        this.datosService = datosService;
         this.datosDTOService = datosDTOService;
     }
 
