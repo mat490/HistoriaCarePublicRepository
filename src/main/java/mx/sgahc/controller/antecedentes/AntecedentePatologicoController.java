@@ -37,24 +37,19 @@ import java.util.List;
 @Controller
 @RequestMapping("/antecedentes")
 public class AntecedentePatologicoController {
-    private final AntecedentePatologicoService antecedentePatologicoService;
     private final AntecedentePatologicoDTOService antecedentePatologicoDTOService;
-    private final UsuarioService usuarioService;
     private final UsuarioDTOService usuarioDTOService;
-    private final PacienteService pacienteService;
     private final PacienteDTOService pacienteDTOService;
-    private final EnfermedadService enfermedadService;
     private final EnfermedadDTOService enfermedadDTOService;
 
     @Autowired
-    public AntecedentePatologicoController(AntecedentePatologicoService antecedentePatologicoService, AntecedentePatologicoDTOService antecedentePatologicoDTOService, UsuarioService usuarioService, UsuarioDTOService usuarioDTOService, PacienteService pacienteService, PacienteDTOService pacienteDTOService, EnfermedadService enfermedadService, EnfermedadDTOService enfermedadDTOService) {
-        this.antecedentePatologicoService = antecedentePatologicoService;
+    public AntecedentePatologicoController(AntecedentePatologicoDTOService antecedentePatologicoDTOService,
+                                           UsuarioDTOService usuarioDTOService,
+                                           PacienteDTOService pacienteDTOService,
+                                           EnfermedadDTOService enfermedadDTOService) {
         this.antecedentePatologicoDTOService = antecedentePatologicoDTOService;
-        this.usuarioService = usuarioService;
         this.usuarioDTOService = usuarioDTOService;
-        this.pacienteService = pacienteService;
         this.pacienteDTOService = pacienteDTOService;
-        this.enfermedadService = enfermedadService;
         this.enfermedadDTOService = enfermedadDTOService;
     }
 
