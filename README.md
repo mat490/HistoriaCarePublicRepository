@@ -9,7 +9,6 @@ HistoriaCare es un Sistema de Gestión de Historias Clínicas Electrónicas (SGH
 - **Manejo de historias clínicas:** Acceso y actualización de antecedentes médicos, tratamientos y diagnósticos.
 - **Gestín de citas:** Programación, modificación y cancelación de citas médicas.
 - **Directorios médicos:** Búsqueda de médicos por especialidad y ubicación.
-- **Recetas médicas:** Generación de recetas en formato PDF y envío automático por correo electrónico.
 - **Análisis visual:** Gráficos y métricas para facilitar la visualización de datos.
 
 ## Tecnologías utilizadas
@@ -73,7 +72,7 @@ HistoriaCare sigue una arquitectura MVC (Modelo-Vista-Controlador) con los sigui
    ```bash
    mvn spring-boot:run
    ```
-4. Accede a la aplicación en `http://localhost:8080`.
+4. Accede a la aplicación en `http://localhost:8090`.
 
 
 ## Autor
