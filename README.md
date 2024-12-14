@@ -216,7 +216,7 @@ HistoriaCare sigue una arquitectura MVC (Modelo-Vista-Controlador) con los sigui
    ```bash
    git clone <URL-del-repositorio>
    ```
-2. Configura la base de datos en `application.properties`.
+2. Configura la base de datos en `application.yml`.
 3. Ejecuta el proyecto:
    ```bash
    mvn spring-boot:run
