@@ -26,19 +26,81 @@ HistoriaCare sigue una arquitectura MVC (Modelo-Vista-Controlador) con los sigui
 ### Controladores
 
 #### InicioSesionController
-
 - Gestiona la autenticación de usuarios.
-- Implementa:
-  - Inicio de sesión seguro con JWT y manejo de cookies.
-  - Redirecciones basadas en roles (médico o paciente).
+- Funcionalidades:
+  - Inicio de sesión con manejo de cookies y generación de JWT.
+  - Redirección basada en roles (médico o paciente).
+  - Página de inicio con información personalizada.
 
 #### HistoriaClinicaController
+- Permite la visualización detallada de las historias clínicas de los pacientes.
+- Proporciona:
+  - Medicamentos consumidos en los últimos meses.
+  - Enfermedades diagnosticadas y frecuencia.
+  - Estadísticas de citas médicas por mes.
 
-- Maneja la visualización y actualización de historias clínicas.
-- Proporciona datos como:
-  - Medicamentos y días de consumo.
-  - Enfermedades diagnosticadas en el último año.
-  - Citas médicas registradas por mes.
+#### AntecedenteFamiliarController
+- Administra los antecedentes familiares de los pacientes.
+- Funcionalidades:
+  - Visualización de antecedentes familiares asociados a un paciente.
+  - Registro de nuevos antecedentes familiares con detalles como enfermedades hereditarias y causas de fallecimiento de familiares.
+
+#### AntecedentePatologicoController
+- Gestiona los antecedentes patológicos de los pacientes.
+- Funcionalidades:
+  - Consulta de antecedentes médicos de cada paciente.
+  - Registro de enfermedades diagnosticadas previamente.
+
+#### CitasController
+- Administra las citas médicas entre médicos y pacientes.
+- Funcionalidades:
+  - Programación, modificación y cancelación de citas.
+  - Visualización de citas pendientes o historial de citas.
+  - Filtrado por médicos y pacientes según el rol del usuario.
+
+#### DirectoriosController
+- Ofrece un directorio médico y de pacientes.
+- Funcionalidades:
+  - Búsqueda de médicos por especialidad y estado.
+  - Listado de pacientes asignados a un médico y viceversa.
+
+#### DiagnosticoController
+- Maneja la creación y visualización de diagnósticos médicos.
+- Funcionalidades:
+  - Registro de nuevos diagnósticos.
+  - Consulta de diagnósticos de un paciente en particular.
+  - Listado de diagnósticos asociados a médicos.
+
+#### RecetasController
+- Administra recetas y tratamientos médicos.
+- Funcionalidades:
+  - Generación de recetas con medicamentos asignados.
+  - Visualización y actualización de tratamientos.
+  - Acceso a tratamientos asociados a diagnósticos.
+
+#### RegistroController
+- Gestiona el registro de usuarios en el sistema.
+- Funcionalidades:
+  - Registro de nuevos usuarios con asignación de roles.
+  - Validación y almacenamiento de datos de usuario.
+
+#### RegistroDatosController
+- Maneja el registro de datos personales y direcciones de los usuarios.
+- Funcionalidades:
+  - Registro de direcciones.
+  - Registro de datos personales como género y fecha de nacimiento.
+
+#### RegistroMedicoController
+- Administra el registro de médicos en el sistema.
+- Funcionalidades:
+  - Registro de datos específicos de médicos.
+  - Asignación de especialidades médicas.
+
+#### RegistroPacienteController
+- Gestiona el registro de pacientes en el sistema.
+- Funcionalidades:
+  - Registro de datos personales de pacientes.
+  - Asignación de detalles médicos como grupo sanguíneo y RH.
 
 ### Módulos principales
 
