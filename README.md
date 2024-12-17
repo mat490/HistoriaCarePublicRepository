@@ -210,19 +210,6 @@ HistoriaCare sigue una arquitectura MVC (Modelo-Vista-Controlador) con los sigui
 - **MariaDB 10.5** o superior
 - **Maven 3.8** o superior
 
-## Instalación
-
-1. Clona el repositorio:
-   ```bash
-   git clone <URL-del-repositorio>
-   ```
-2. Configura la base de datos en `application.yml`.
-3. Ejecuta el proyecto:
-   ```bash
-   mvn spring-boot:run
-   ```
-4. Accede a la aplicación en `http://localhost:8090`.
-
 
 ## Autor
 
