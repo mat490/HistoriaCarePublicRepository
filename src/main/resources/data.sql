@@ -121,14 +121,15 @@ INSERT INTO Lugares_Nacimiento (pais, estado, municipio) VALUES
                                                              ('Perú', 'Lima', 'Miraflores');
 
 -- Inserts para pacientes
-INSERT INTO pacientes (ID_Datos_Personales_Generales, ID_Estado_Civil, ID_Ocupacion, ID_COMBE, ID_Grupo_Sanguineo, ID_RH, ID_Lugar_Nacimiento) VALUES
-                                                                                                                                                   (1, 2, 2, 3, 1, 1, 1),
-                                                                                                                                                   (2, 1, 3, 3, 4, 1, 2),
-                                                                                                                                                   (3, 3, 1, 3, 2, 2, 3),
-                                                                                                                                                   (4, 5, 4, 3, 3, 1, 4),
-                                                                                                                                                   (5, 1, 2, 2, 4, 2, 5),
-                                                                                                                                                   (6, 4, 6, 2, 1, 1, 6),
-                                                                                                                                                   (7, 1, 1, 2, 1, 1, 1);
+INSERT INTO pacientes (ID_Datos_Personales_Generales, ID_Estado_Civil, ID_Ocupacion, ID_COMBE, ID_Grupo_Sanguineo, ID_RH, ID_Lugar_Nacimiento)
+VALUES
+    (1, 2, 2, 3, 1, 1, 1),
+    (2, 1, 3, 3, 4, 1, 2),
+    (3, 3, 1, 3, 2, 2, 3),
+    (4, 5, 4, 3, 3, 1, 4),
+    (5, 1, 2, 2, 4, 2, 5),
+    (6, 4, 6, 2, 1, 1, 6),
+    (7, 1, 1, 2, 1, 1, 1);
 
 
 INSERT INTO Sustancias (sustancia, descripcion) VALUES
@@ -159,15 +160,15 @@ VALUES
     ('Sin antecedentes', 'El paciente no presenta enfermedades relevantes hasta la fecha.');
 
 /* Inserciones en la tabla Antecedentes_Patológicos */
-INSERT INTO Antecedentes_Patologicos (ID_Paciente, ID_Enfermedad, descripcion)
+INSERT INTO Antecedentes_Patologicos (ID_Paciente, ID_Enfermedad, descripcion, fecha)
 VALUES
-    (1, 1, 'El paciente tiene hipertensión desde hace 5 años, controlada con medicación.'),
-    (2, 2, 'El paciente ha sido diagnosticado con diabetes tipo 2 hace 2 años.'),
-    (3, 3, 'Paciente con asma desde la infancia, utilizando inhalador ocasionalmente.'),
-    (4, 6, 'El paciente reporta estar saludable y no tener antecedentes patológicos relevantes.'),
-    (5, 4, 'Diagnosticado con artritis en las manos hace 3 años, bajo tratamiento.'),
-    (6, 5, 'El paciente tiene niveles elevados de colesterol, bajo dieta y medicación.'),
-    (7, 6, 'Paciente sin antecedentes patológicos relevantes a su edad.');
+    (1, 1, 'El paciente tiene hipertensión desde hace 5 años, controlada con medicación.', '2019-12-10'),
+    (2, 2, 'El paciente ha sido diagnosticado con diabetes tipo 2 hace 2 años.','2022-12-20'),
+    (3, 3, 'Paciente con asma desde la infancia, utilizando inhalador ocasionalmente.', '2000-12-10'),
+    (4, 6, 'El paciente reporta estar saludable y no tener antecedentes patológicos relevantes.', '0000-00-00'),
+    (5, 4, 'Diagnosticado con artritis en las manos hace 3 años, bajo tratamiento.', '2021-12-03'),
+    (6, 5, 'El paciente tiene niveles elevados de colesterol, bajo dieta y medicación.', '2013-07-12'),
+    (7, 6, 'Paciente sin antecedentes patológicos relevantes a su edad.', '0000-00-00');
 
 /* Inserciones en la tabla Parentescos */
 INSERT INTO Parentescos (parentesco)
