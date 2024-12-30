@@ -13,7 +13,7 @@ spring:
   datasource:
     url: jdbc:mariadb://localhost:3306/sgahc
     username: root
-    password:
+    password: Sq
     driver-class-name: org.mariadb.jdbc.Driver
 
 
