@@ -35,19 +35,26 @@
                     <li class="nav-item">
                         <a class="nav-link" th:href="@{/inicio}">Dashboard</a>
                     </li>
-                    <li class="nav-item" th:if="${registroIncompleto == false}">
+                    <li class="nav-item" th:if="${registroIncompleto != true}">
                         <a class="nav-link" th:href="@{/citas/cita-main}">Citas</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" th:if="${registroIncompleto == false}"
-                           th:href="@{/directorios/pacientes-medico}">
+                        <a class="nav-link" th:if="${registroIncompleto != true or registroIncompleto == null}"
+                           th:href="@{/directorios/pacientes-medico}" sec:authorize="hasAuthority('Medico')">
 
-                            <p  th:if="${pacientesMedicosTxt != null}" th:text="${pacientesMedicosTxt}"> </p></a>
+                            <p>Pacientes</p></a>
                     </li>
-                    <li class="nav-item" th:if="${registroIncompleto == false}" sec:authorize="hasAuthority('Medico')">
+                    <li class="nav-item">
+                        <a class="nav-link" th:if="${registroIncompleto != true or registroIncompleto == null}"
+                           th:href="@{/directorios/pacientes-medico}" sec:authorize="hasAuthority('Paciente')">
+
+                            <p>Medicos</p></a>
+                    </li>
+
+                    <li class="nav-item" th:if="${registroIncompleto != true or registroIncompleto == null}" sec:authorize="hasAuthority('Medico')">
                         <a class="nav-link " th:href="@{/recetas/recetar}" >Recetar</a>
                     </li>
-                    <li class="nav-item" th:if="${registroIncompleto == false and paciente != null}" sec:authorize="hasAuthority('Paciente')">
+                    <li class="nav-item" th:if="${registroIncompleto != true or registroIncompleto == null}" sec:authorize="hasAuthority('Paciente')">
                         <a class="btn btn-outline-success" th:href="@{/historias/detalles-paciente/{id}(id=${paciente.id})}" >Ver mi Historia</a>
                     </li>
                 </ul>

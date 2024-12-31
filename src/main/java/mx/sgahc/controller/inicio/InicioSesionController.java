@@ -117,7 +117,6 @@ public class InicioSesionController {
         }
 
         if (usuarioLog.getRol().equals("Medico")){
-            model.addAttribute("pacientesMedicosTxt","Pacientes");
             if (registroCompleto){
 
                 Medico medico = medicoService.getMedicoByUsuarioId(usuarioLog.getId());
@@ -134,7 +133,6 @@ public class InicioSesionController {
         }
         System.out.println(registroCompleto);
         if (usuarioLog.getRol().equals("Paciente") ){
-            model.addAttribute("pacientesMedicosTxt","Medicos");
             if (registroCompleto){
                 Paciente paciente = pacienteService.getPacienteByUsuarioId(usuarioLog.getId());
                 if (paciente != null) {
