@@ -19,5 +19,7 @@ public interface MedicoService {
     Medico getMedicoByUsuarioId(Integer id);
     Page<Cita> getCitas(Integer id, Pageable pageable);
     Page<Paciente> getPacientes(Integer id, Pageable pageable);
+    int getCantidadPacientesMesByMedicoId(Integer id);
+    double getIncrementoUltimoMesByMedicoId(Integer id);
     Page<Medico> getMedicosEspecialidadYEstatod(Especialidad especialidad, String estado, Pageable pageable);
 }

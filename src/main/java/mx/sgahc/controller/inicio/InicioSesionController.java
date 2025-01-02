@@ -125,6 +125,8 @@ public class InicioSesionController {
                             citaService.getCitasByMedicoAndFecha(
                                     medico.getId(),
                                     fechaSinHora));
+                    model.addAttribute("pacientesMes", medicoService.getCantidadPacientesMesByMedicoId(medico.getId()));
+                    model.addAttribute("incrementPac", medicoService.getIncrementoUltimoMesByMedicoId(medico.getId()));
                 }
 
             }

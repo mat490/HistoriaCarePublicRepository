@@ -10,12 +10,16 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.time.Instant;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 @Service
 public class MedicoServiceImpl implements MedicoService{
     @Autowired
     MedicoRepository medicoRepository;
+
 
     @Override
     public List<Medico> getMedicos() {
@@ -62,6 +66,47 @@ public class MedicoServiceImpl implements MedicoService{
     public Page<Paciente> getPacientes(Integer id, Pageable pageable) {
 
         return medicoRepository.buscarPacientesPorMedicoId(id, pageable);
+    }
+
+    @Override
+    public int getCantidadPacientesMesByMedicoId(Integer id) {
+        // Calcular las fechas de inicio y fin usando java.util.Date
+        Date fechaFin = new Date();
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(fechaFin);
+        calendar.add(Calendar.MONTH, -1);
+        Date fechaInicio = calendar.getTime();
+
+        Integer cantidadPacientes = medicoRepository.obtenerPacientesAtendidosUltimoMesPorMedicoId(id, fechaInicio, fechaFin);
+        return cantidadPacientes != null ? cantidadPacientes : 0; // Maneja el caso de resultados nulos
+    }
+
+    @Override
+    public double getIncrementoUltimoMesByMedicoId(Integer id) {
+        // Calcular las fechas de inicio y fin usando java.util.Date
+        Date fechaHoy = new Date();
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(fechaHoy);
+        calendar.add(Calendar.MONTH, -1);
+        Date mesPasado = calendar.getTime();
+
+        calendar.setTime(fechaHoy);
+        calendar.add(Calendar.MONTH, -2);
+        Date dosMesPasado = calendar.getTime();
+
+        Integer cantidadPacientesEsteMes =
+                medicoRepository.obtenerPacientesAtendidosUltimoMesPorMedicoId(id, mesPasado, fechaHoy);
+        Integer cantidadPacientesDosMes =
+                medicoRepository.obtenerPacientesAtendidosUltimoMesPorMedicoId(id, dosMesPasado, mesPasado);
+
+        cantidadPacientesEsteMes = cantidadPacientesEsteMes != null ? cantidadPacientesEsteMes : 0;
+        cantidadPacientesDosMes = cantidadPacientesDosMes != null ? cantidadPacientesDosMes : 0;
+
+        if (cantidadPacientesDosMes == 0) {
+            return cantidadPacientesEsteMes * 100.0; // Si no había pacientes, toda la cantidad es un incremento.
+        } else {
+            return ((double) (cantidadPacientesEsteMes - cantidadPacientesDosMes) / cantidadPacientesDosMes) * 100;
+        }
     }
 
     @Override

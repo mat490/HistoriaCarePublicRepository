@@ -8,6 +8,11 @@
     background: linear-gradient(to bottom, #ecf0f5, #ffffff);
 }
 
+.bg-gradient-black {
+    background: #1c1b1b;
+    background: linear-gradient(to right, #1c1b1b, #292727);
+}
+
 .bg-gradient-green {
     background: #68ff74;
     background: linear-gradient(to right, #349e14, #67ff62);
@@ -126,4 +131,3 @@
     object-fit: cover;
     border-radius: 10px; /* Opcional: Para bordes redondeados */
 }
-
