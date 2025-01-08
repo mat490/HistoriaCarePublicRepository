@@ -439,6 +439,16 @@ CREATE TABLE tratamientos (
 CREATE UNIQUE INDEX unicidad_tratamientos
     ON tratamientos (ID_Diagnostico, ID_Medicamento);
 
+CREATE TABLE notificaciones(
+                               ID_Notificacion INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
+                               ID_Usuario INT NOT NULL,
+                               notificacion VARCHAR(250) NOT NULL,
+                               tipo VARCHAR(250) NOT NULL,
+                               estado VARCHAR(50) NOT NULL,
+                               fecha DATETIME NOT NULL DEFAULT NOW(),
+                               CONSTRAINT fk_usuario_notificaciones FOREIGN KEY (ID_Usuario) REFERENCES usuarios(ID_Usuario)
+
+);
 
 CREATE TABLE acceso_historial_clinico (
                                           ID_Acceso_HC INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
